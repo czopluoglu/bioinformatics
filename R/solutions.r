@@ -3,7 +3,8 @@ require(here)
 
 ################################################################################
 
-# Counting DNA nucleotides
+# 1 - Counting DNA nucleotides
+# http://rosalind.info/problems/dna/
 
 dna <- read.table(here('data','rosalind_dna.txt'))
 
@@ -13,7 +14,8 @@ table(strsplit(dna[1,1],split='')[[1]])
 
 ################################################################################
 
-# Transcribing DNA into RNA
+# 2 - Transcribing DNA into RNA
+# http://rosalind.info/problems/rna/
 
 dna <- read.table(here('data','rosalind_rna.txt'))[1,1]
 
@@ -25,7 +27,8 @@ rna
 
 ################################################################################
 
-# Complementing a Strand of DNA
+# 3 - Complementing a Strand of DNA
+# http://rosalind.info/problems/revc/
 
 s <- read.table(here('data','rosalind_revc.txt'))[1,1]
 
@@ -49,17 +52,57 @@ rc <- paste0(r_c,collapse='')
 
 rc
 
+################################################################################
+
+# 4 - Rabbits and Recurrence Relations
+# http://rosalind.info/problems/fib/
+
+s <- read.table(here('data','rosalind_fib.txt'))
+
+n = as.numeric(s[1])
+k = as.numeric(s[2])
+
+f   <- c()
+f[1] <- 1
+f[2] <- 1
+
+for(i in 3:n){
+  
+  f[i] = f[i-1] + f[i-2]*k
+  
+}
+
+f[n]
+
+################################################################################
+
+# 5 - Computing GC Content
+# http://rosalind.info/problems/gc/
 
 
+s <- scan(here('data','rosalind_gc.txt'),
+          what = 'character')
 
 
+loc <- grep('>Rosalind_',s)
+gc  <- c()
+
+for(i in 1:length(loc)){
+
+  if(i < length(loc)){
+    temp  <- paste0(s[(loc[i]+1):(loc[i+1]-1)],collapse ='')
+    temp2 <- strsplit(temp,split = '')[[1]]
+    gc[i] <- length(which(temp2=='C' | temp2=='G'))/length(temp2)
+  }
+  
+  if(i == length(loc)){
+    temp  <- paste0(s[(loc[i]+1):length(s)],collapse ='')
+    temp2 <- strsplit(temp,split = '')[[1]]
+    gc[i] <- length(which(temp2=='C' | temp2=='G'))/length(temp2)
+  }
+}
 
 
-
-
-
-
-
-
-
+s[loc][which.max(gc)]
+round(gc[which.max(gc)]*100,5)
 
